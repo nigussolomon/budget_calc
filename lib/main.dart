@@ -1,3 +1,5 @@
+import 'package:budget_calc/routes.dart';
+import 'package:budget_calc/views/history.dart';
 import 'package:budget_calc/views/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,11 +19,18 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => BudgetBloc(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+          Routes.home: (context) =>
+              const MyHomePage(title: 'BUDGET CALCULATOR'),
+          Routes.history: (context) =>
+              const HistoryPage(title: "BUDGET HISTORY"),
+        },
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const MyHomePage(title: 'BUDGET CALCULATOR'),
       ),
     );
   }

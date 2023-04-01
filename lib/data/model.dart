@@ -1,27 +1,29 @@
 class Budget {
+  num id;
   String foodTitle;
   String foodDescription;
   String image;
   num foodPrice;
   int quantity;
-  bool itemAdded;
 
-  Budget(
-      {required this.foodTitle,
-      required this.foodDescription,
-      required this.foodPrice,
-      required this.image,
-      required this.quantity,
-      required this.itemAdded});
+  Budget({
+    required this.id,
+    required this.foodTitle,
+    required this.foodDescription,
+    required this.foodPrice,
+    required this.image,
+    required this.quantity,
+  });
 
   factory Budget.fromJson(Map<String, dynamic> parsedJson) {
     return Budget(
-        foodTitle: parsedJson["title"],
-        foodDescription: parsedJson["description"],
-        foodPrice: parsedJson["price"],
-        image: parsedJson["image"],
-        quantity: 1,
-        itemAdded: false);
+      id: parsedJson["id"],
+      foodTitle: parsedJson["title"],
+      foodDescription: parsedJson["description"],
+      foodPrice: parsedJson["price"],
+      image: parsedJson["image"],
+      quantity: 0,
+    );
   }
 
   static List budgetList(List budget) {

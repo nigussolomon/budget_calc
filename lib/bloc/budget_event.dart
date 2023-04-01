@@ -23,3 +23,10 @@ class AddBudget extends BudgetEvent {
 
   get data => budget;
 }
+
+class ClearBudget extends BudgetEvent {
+  const ClearBudget();
+
+  @override
+  List<Object> get props => [];
+}
