@@ -73,16 +73,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                "Anonymous's Budget",
-                                style: TextStyle(
+                              Text(
+                                "${state.user.firstName}'s Budget",
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 25,
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),
                               Text(
-                                DateFormat.MMMM().format(date),
+                                DateFormat.yMMMMEEEEd().format(date),
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,
@@ -159,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   SizedBox(
                                     width:
-                                        MediaQuery.of(context).size.width * .32,
+                                        MediaQuery.of(context).size.width * .25,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,

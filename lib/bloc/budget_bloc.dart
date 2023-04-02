@@ -1,21 +1,23 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../data/model.dart';
+import '../data/budget.dart';
 import '../data/repository.dart';
+import '../data/user.dart';
 
 part 'budget_event.dart';
 part 'budget_state.dart';
 
 class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
   final _apiServiceProvider = ApiServiceProvider();
+  final User user = User(firstName: "Anonymous", lastName: "", budgetLimit: 0);
   List budgets = [];
   BudgetBloc() : super(BudgetInitial()) {
     on<FetchBudget>((event, emit) async {
       emit(BudgetLoading());
       try {
         final items = await _apiServiceProvider.fetchBudgets();
-        emit(BudgetSuccess(items: items!, budgets: budgets));
+        emit(BudgetSuccess(items: items!, budgets: budgets, user: user));
       } catch (e) {
         emit(BudgetFailed());
       }
@@ -57,6 +59,12 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
     on<DeleteItem>((event, emit) {
       budgets[event.data].quantity = 0;
       budgets.removeAt(event.data);
+    });
+
+    on<RegisterUser>((event, emit) {
+      user.firstName = event.data.firstName;
+      user.lastName = event.data.lastName;
+      user.budgetLimit = event.data.budgetLimit;
     });
   }
 }

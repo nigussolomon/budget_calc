@@ -60,3 +60,13 @@ class DeleteItem extends BudgetEvent {
 
   get data => index;
 }
+
+class RegisterUser extends BudgetEvent {
+  final User user;
+  const RegisterUser({required this.user});
+
+  @override
+  List<Object> get props => [];
+
+  get data => user;
+}
