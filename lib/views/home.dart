@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
-                                "Nigus's Budget",
+                                "Anonymous's Budget",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 25,
@@ -213,6 +213,36 @@ class _MyHomePageState extends State<MyHomePage> {
             return const Center(
               child: Text("Failed to fetch!"),
             );
+          }
+          return Container();
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButton: BlocBuilder<BudgetBloc, BudgetState>(
+        builder: (context, state) {
+          if (state is BudgetSuccess) {
+            if (state.budgets.isNotEmpty) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 80, right: 10),
+                child: FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.history)
+                          .then((value) {
+                        setState(() {});
+                      });
+                    },
+                    backgroundColor: Colors.red,
+                    label: Text(
+                      "${state.budgets.length}",
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w900),
+                    ),
+                    icon: const Icon(
+                      Icons.shopping_bag,
+                      color: Colors.white,
+                    )),
+              );
+            }
           }
           return Container();
         },

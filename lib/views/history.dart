@@ -16,6 +16,7 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
+    num totalPrice = 0;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
@@ -27,6 +28,14 @@ class _HistoryPageState extends State<HistoryPage> {
       body: BlocBuilder<BudgetBloc, BudgetState>(
         builder: (context, state) {
           if (state is BudgetSuccess) {
+            void incQunatity() {
+              totalPrice = 0;
+              for (var budget in state.budgets) {
+                totalPrice += budget.foodPrice * budget.quantity;
+              }
+            }
+
+            incQunatity();
             return Container(
               margin: const EdgeInsets.only(top: 10),
               height: MediaQuery.of(context).size.height * .9,
@@ -101,14 +110,26 @@ class _HistoryPageState extends State<HistoryPage> {
                             Column(
                               children: [
                                 IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      BlocProvider.of<BudgetBloc>(context)
+                                          .add(IncItem(index: index));
+                                      setState(() {});
+                                    },
                                     icon: Icon(Icons.add_circle)),
                                 Text("${budget.quantity}"),
                                 IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      BlocProvider.of<BudgetBloc>(context)
+                                          .add(DecItem(index: index));
+                                      setState(() {});
+                                    },
                                     icon: Icon(Icons.remove_circle)),
                                 IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      BlocProvider.of<BudgetBloc>(context)
+                                          .add(DeleteItem(index: index));
+                                      setState(() {});
+                                    },
                                     icon: const Icon(
                                       Icons.delete,
                                       color: Colors.red,
@@ -136,17 +157,11 @@ class _HistoryPageState extends State<HistoryPage> {
           BlocBuilder<BudgetBloc, BudgetState>(
             builder: (context, state) {
               if (state is BudgetSuccess) {
-                print(state.totalPrice);
                 return FloatingActionButton.extended(
-                  elevation: 10,
-                  onPressed: () {
-                    BlocProvider.of<BudgetBloc>(context)
-                        .add(const ClearBudget());
-                    Navigator.pushReplacementNamed(context, Routes.home);
-                  },
+                  onPressed: () {},
                   heroTag: "price",
                   backgroundColor: Colors.green,
-                  label: Text(state.totalPrice.toStringAsFixed(2)),
+                  label: Text(totalPrice.toStringAsFixed(2)),
                   icon: const Icon(Icons.money),
                 );
               }
@@ -159,7 +174,6 @@ class _HistoryPageState extends State<HistoryPage> {
           FloatingActionButton.small(
             elevation: 10,
             onPressed: () {
-              BlocProvider.of<BudgetBloc>(context).add(const ClearBudget());
               Navigator.pushReplacementNamed(context, Routes.home);
             },
             heroTag: "save",

@@ -10,18 +10,12 @@ part 'budget_state.dart';
 class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
   final _apiServiceProvider = ApiServiceProvider();
   List budgets = [];
-
-  num totalPrice = 0;
   BudgetBloc() : super(BudgetInitial()) {
     on<FetchBudget>((event, emit) async {
       emit(BudgetLoading());
       try {
         final items = await _apiServiceProvider.fetchBudgets();
-        for (Budget budget in budgets) {
-          totalPrice += budget.foodPrice * budget.quantity;
-        }
-        emit(BudgetSuccess(
-            items: items!, budgets: budgets, totalPrice: totalPrice));
+        emit(BudgetSuccess(items: items!, budgets: budgets));
       } catch (e) {
         emit(BudgetFailed());
       }
@@ -45,6 +39,24 @@ class BudgetBloc extends Bloc<BudgetEvent, BudgetState> {
         budget.quantity = 0;
       }
       budgets.clear();
+    });
+
+    on<DecItem>((event, emit) {
+      if (budgets[event.data].quantity <= 1) {
+        budgets[event.data].quantity--;
+        budgets.removeAt(event.data);
+      } else {
+        budgets[event.data].quantity--;
+      }
+    });
+
+    on<IncItem>((event, emit) {
+      budgets[event.data].quantity++;
+    });
+
+    on<DeleteItem>((event, emit) {
+      budgets[event.data].quantity = 0;
+      budgets.removeAt(event.data);
     });
   }
 }

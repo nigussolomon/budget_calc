@@ -14,10 +14,8 @@ class BudgetLoading extends BudgetState {}
 class BudgetSuccess extends BudgetState {
   final List budgets;
   final List items;
-  final num totalPrice;
 
-  const BudgetSuccess(
-      {required this.budgets, required this.totalPrice, required this.items});
+  const BudgetSuccess({required this.budgets, required this.items});
 }
 
 class BudgetFailed extends BudgetState {}

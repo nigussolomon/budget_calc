@@ -30,3 +30,33 @@ class ClearBudget extends BudgetEvent {
   @override
   List<Object> get props => [];
 }
+
+class DecItem extends BudgetEvent {
+  final int index;
+  const DecItem({required this.index});
+
+  @override
+  List<Object> get props => [];
+
+  get data => index;
+}
+
+class IncItem extends BudgetEvent {
+  final int index;
+  const IncItem({required this.index});
+
+  @override
+  List<Object> get props => [];
+
+  get data => index;
+}
+
+class DeleteItem extends BudgetEvent {
+  final int index;
+  const DeleteItem({required this.index});
+
+  @override
+  List<Object> get props => [];
+
+  get data => index;
+}
